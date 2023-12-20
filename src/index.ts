@@ -1,6 +1,7 @@
 import express from "express";
 import { HOST_NAME, PORT } from "./config";
-
+import { errorHandler } from "./middlewares/errorHandler";
+/** ---> Initialze express app */
 const app = express();
 
 /** ---> Handing home route for testing. */
@@ -15,6 +16,10 @@ app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found." });
 });
 
+/** ---> Handling global errors. */
+app.use(errorHandler);
+
+/** ---> Listenig for requests. */
 app.listen(Number(PORT), HOST_NAME, () => {
   console.log(`server is running at : http://${HOST_NAME}:${PORT}`);
 });
