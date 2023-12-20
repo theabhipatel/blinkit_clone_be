@@ -12,6 +12,17 @@ export const getProducts: RequestHandler = async (req, res, next) => {
   }
 };
 
+export const createProduct: RequestHandler = async (req, res, next) => {
+  try {
+    const newProduct = await productModel.create({
+      ...req.body,
+    });
+    res.status(201).json({ success: true, message: "Product created." });
+  } catch (error) {
+    next(error);
+  }
+};
+
 /** ---> sample request handler */
 export const sample: RequestHandler = async (req, res, next) => {
   try {
