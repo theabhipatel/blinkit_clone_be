@@ -1,8 +1,15 @@
 import express from "express";
+import cors from "cors";
 import { HOST_NAME, PORT } from "./config";
 import { errorHandler } from "./middlewares/errorHandler";
+
 /** ---> Initialze express app */
 const app = express();
+
+/** ---> Registering middlewares. */
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 /** ---> Handing home route for testing. */
 app.get("/", (req, res) => {
