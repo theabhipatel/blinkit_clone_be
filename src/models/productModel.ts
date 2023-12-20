@@ -7,6 +7,8 @@ interface IBaseProduct {
   discountPercentage: number;
   categoryId: string;
   subCategoryId: string;
+  brand: string;
+  stock: number;
   thumbnail: string;
   images: string[];
   details: { title: string; description: string }[];
@@ -40,6 +42,13 @@ const productSchema = new Schema<IProductSchema>(
     subCategoryId: {
       type: String,
       required: true,
+    },
+    brand: {
+      type: String,
+    },
+    stock: {
+      type: Number,
+      default: 50,
     },
     thumbnail: {
       type: String,
