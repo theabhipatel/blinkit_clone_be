@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { HOST_NAME, PORT } from "./config";
 import { errorHandler } from "./middlewares/errorHandler";
+import router from "./routes";
 
 /** ---> Initialze express app */
 const app = express();
@@ -17,6 +18,9 @@ app.get("/", (req, res) => {
     .status(200)
     .json({ success: true, message: "Welcome to the home route." });
 });
+
+/** ---> Handing all api routes. */
+app.use("/api/v1", router);
 
 /** ---> Handling Not found (404) routes. */
 app.use((req, res) => {
