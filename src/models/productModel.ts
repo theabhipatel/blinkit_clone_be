@@ -1,0 +1,65 @@
+import { Document, Schema, model } from "mongoose";
+
+interface IBaseProduct {
+  title: string;
+  price: number;
+  unit: string;
+  discountPercentage: number;
+  categoryId: string;
+  subCategoryId: string;
+  thumbnail: string;
+  images: string[];
+  details: { title: string; description: string }[];
+}
+
+interface IProductSchema extends IBaseProduct, Document {}
+
+const productSchema = new Schema<IProductSchema>(
+  {
+    title: {
+      type: String,
+      trim: true,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    discountPercentage: {
+      type: Number,
+      required: true,
+    },
+    unit: {
+      type: String,
+      required: true,
+    },
+    categoryId: {
+      type: String,
+      required: true,
+    },
+    subCategoryId: {
+      type: String,
+      required: true,
+    },
+    thumbnail: {
+      type: String,
+      required: true,
+    },
+    images: [
+      {
+        type: String,
+      },
+    ],
+    details: [
+      {
+        title: String,
+        description: String,
+      },
+    ],
+  },
+  { timestamps: true }
+);
+
+const productModel = model("product", productSchema);
+
+export default productModel;
