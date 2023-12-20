@@ -1,11 +1,8 @@
 import { Router } from "express";
+import { getProducts } from "../controllers/product.controller";
 
 const productRouter = Router();
 
-productRouter.get("/", (req, res) => {
-  res
-    .status(200)
-    .json({ success: true, message: "Welcome to the Products route." });
-});
+productRouter.get("/", getProducts);
 
 export default productRouter;
