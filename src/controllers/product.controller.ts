@@ -23,6 +23,18 @@ export const createProduct: RequestHandler = async (req, res, next) => {
   }
 };
 
+export const getProductsByCategory: RequestHandler = async (req, res, next) => {
+  const { categoryId } = req.params;
+  try {
+    const products = await productModel.find({ categoryId });
+    res
+      .status(200)
+      .json({ success: true, message: "Products fetched.", products });
+  } catch (error) {
+    next(error);
+  }
+};
+
 /** ---> sample request handler */
 export const sample: RequestHandler = async (req, res, next) => {
   try {
