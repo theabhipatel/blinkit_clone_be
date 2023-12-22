@@ -55,6 +55,38 @@ export const getProductsByCategory: RequestHandler = async (req, res, next) => {
   }
 };
 
+export const getSearchedProducts: RequestHandler = async (req, res, next) => {
+  const { q } = req.query;
+  try {
+    if (q) {
+      const products = await productModel.find({
+        title: { $regex: q, $options: "i" },
+      });
+      res
+        .status(200)
+        .json({ success: true, message: "Products fetched.", products });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getProductsBySubCategory: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
+  const { subCategoryId } = req.params;
+  try {
+    const products = await productModel.find({ subCategoryId });
+    res
+      .status(200)
+      .json({ success: true, message: "Products fetched.", products });
+  } catch (error) {
+    next(error);
+  }
+};
+
 /** ---> sample request handler */
 export const sample: RequestHandler = async (req, res, next) => {
   try {
