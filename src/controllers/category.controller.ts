@@ -33,8 +33,10 @@ export const createSubCategory: RequestHandler = async (req, res, next) => {
 
 export const getAllCategories: RequestHandler = async (req, res, next) => {
   try {
-    const categories = await categoryModel.find();
-    // .select({ subCategories: -1 });
+    const categories = await categoryModel.find(
+      {},
+      { subCategories: { $slice: 1 } }
+    );
     res
       .status(200)
       .json({ success: true, message: "Categories fetched.", categories });
