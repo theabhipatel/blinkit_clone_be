@@ -17,6 +17,19 @@ export const createAddress: RequestHandler = async (req, res, next) => {
   }
 };
 
+export const getAddresses: RequestHandler = async (req, res, next) => {
+  try {
+    const id = res.locals.userId;
+    const foundAddresses = await userModel.findById(id).select("addresses");
+    const addresses = foundAddresses?.addresses;
+    res
+      .status(200)
+      .json({ success: true, message: "Addresses fetched.", addresses });
+  } catch (error) {
+    next(error);
+  }
+};
+
 /** ---> sample request handler */
 export const sample: RequestHandler = async (req, res, next) => {
   try {
