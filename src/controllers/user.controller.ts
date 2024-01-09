@@ -30,6 +30,27 @@ export const getAddresses: RequestHandler = async (req, res, next) => {
   }
 };
 
+export const deleteAddress: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = res.locals.userId;
+    const id = req.params.id;
+    const addresses = await userModel.findByIdAndUpdate(
+      userId,
+      {
+        $pull: { addresses: { _id: id } },
+      },
+      { new: true }
+    );
+    if (!addresses)
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found." });
+    res.status(200).json({ success: true, message: "Address deleted." });
+  } catch (error) {
+    next(error);
+  }
+};
+
 /** ---> sample request handler */
 export const sample: RequestHandler = async (req, res, next) => {
   try {
