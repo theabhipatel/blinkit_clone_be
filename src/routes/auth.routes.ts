@@ -3,7 +3,7 @@ import { loginOrSignup, verifyOtp } from "../controllers/auth.controller";
 
 const authRouter = Router();
 
-authRouter.use("/login-signup", loginOrSignup);
-authRouter.use("/verify-otp", verifyOtp);
+authRouter.post("/login-signup", loginOrSignup);
+authRouter.post("/verify-otp", verifyOtp);
 
 export default authRouter;
