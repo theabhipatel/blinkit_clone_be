@@ -30,7 +30,7 @@ const userSchema = new Schema<IUserSchema>({
       addressLine1: { type: String, required: true },
       addressLine2: { type: String, required: true },
       addressType: { type: String, required: true },
-      landmark: { type: String, required: true },
+      landmark: { type: String },
       latitude: { type: Number, required: true },
       longitude: { type: Number, required: true },
     },
