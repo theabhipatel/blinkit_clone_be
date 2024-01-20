@@ -3,8 +3,10 @@ import sha256 from "crypto-js/sha256";
 import {
   PHONEPE_MERCHANT_ID,
   PHONEPE_PROD_URL,
-  PHONEPE_REDIRECT_URL,
+  PHONEPE_SEVER_REDIRECT_URL,
   PHONEPE_SALT_KEY,
+  CLIENT_PAYMENT_SUCCESS_PAGE_URL,
+  CLIENT_PAYMENT_FAILURE_PAGE_URL,
 } from "../config";
 import axios from "axios";
 
@@ -21,7 +23,7 @@ export const makePaymentWithPhonepe: RequestHandler = async (
       merchantUserId: muid,
       name: name,
       amount: amount * 100,
-      redirectUrl: `${PHONEPE_REDIRECT_URL}/${merchantTransactionId}`,
+      redirectUrl: `${PHONEPE_SEVER_REDIRECT_URL}/${merchantTransactionId}`,
       redirectMode: "POST",
       mobileNumber: number,
       paymentInstrument: {
@@ -53,14 +55,14 @@ export const makePaymentWithPhonepe: RequestHandler = async (
     axios
       .request(options)
       .then(function (response) {
-        // console.log("payment res ------>", response.data);
-        // console.log(
-        //   "payment response.data.data.instrumentResponse.redirectInfo.url ------>",
+        // return res.redirect(
         //   response.data.data.instrumentResponse.redirectInfo.url
         // );
-        return res.redirect(
-          response.data.data.instrumentResponse.redirectInfo.url
-        );
+        return res.json({
+          success: true,
+          message: "Payment initiated.",
+          url: response.data.data.instrumentResponse.redirectInfo.url,
+        });
       })
       .catch(function (error) {
         console.error(error);
@@ -100,10 +102,10 @@ export const checkPhonepePaymentStatus: RequestHandler = async (
       .request(options)
       .then(async (response) => {
         if (response.data.success === true) {
-          const url = `http://localhost:5173/`;
+          const url = CLIENT_PAYMENT_SUCCESS_PAGE_URL;
           return res.redirect(url);
         } else {
-          const url = `http://localhost:5173/`;
+          const url = CLIENT_PAYMENT_FAILURE_PAGE_URL;
           return res.redirect(url);
         }
       })

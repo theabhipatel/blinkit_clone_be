@@ -11,5 +11,10 @@ export const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
 //  ---> Payment configs
 export const PHONEPE_MERCHANT_ID = process.env.PHONEPE_MERCHANT_ID;
 export const PHONEPE_SALT_KEY = process.env.PHONEPE_SALT_KEY;
-export const PHONEPE_REDIRECT_URL = process.env.PHONEPE_REDIRECT_URL;
+export const PHONEPE_SEVER_REDIRECT_URL = process.env.PHONEPE_REDIRECT_URL;
 export const PHONEPE_PROD_URL = process.env.PHONEPE_PROD_URL;
+
+export const CLIENT_PAYMENT_SUCCESS_PAGE_URL =
+  process.env.CLIENT_SUCCESS_PAGE_URL!;
+export const CLIENT_PAYMENT_FAILURE_PAGE_URL =
+  process.env.CLIENT_FAILURE_PAGE_URL!;
