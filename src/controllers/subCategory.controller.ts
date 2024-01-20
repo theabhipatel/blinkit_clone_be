@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import subCategoryModel from "../models/subCategoryModel";
+import subCategoryModel from "../models/subCategory.model";
 
 export const getAllSubCategories: RequestHandler = async (req, res, next) => {
   try {

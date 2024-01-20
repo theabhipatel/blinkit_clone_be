@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import categoryModel from "../models/categoryModel";
+import categoryModel from "../models/category.model";
 
 export const createCategory: RequestHandler = async (req, res, next) => {
   try {
