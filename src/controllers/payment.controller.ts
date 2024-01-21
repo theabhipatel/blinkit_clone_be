@@ -9,6 +9,7 @@ import {
   CLIENT_PAYMENT_FAILURE_PAGE_URL,
 } from "../config";
 import axios from "axios";
+import { makeNewOrder } from "./order.controller";
 
 export const makePaymentWithPhonepe: RequestHandler = async (
   req,
@@ -16,14 +17,18 @@ export const makePaymentWithPhonepe: RequestHandler = async (
   next
 ) => {
   try {
-    const { merchantTransactionId, name, muid, amount, number } = req.body;
+    const userId = res.locals.userId;
+    const transactionId = `T${Date.now()}`;
+    const { selectedAddress, name, totalAmount, totalItems, number, items } =
+      req.body;
+
     const data = {
       merchantId: PHONEPE_MERCHANT_ID,
-      merchantTransactionId: merchantTransactionId,
-      merchantUserId: muid,
+      merchantTransactionId: transactionId,
+      merchantUserId: userId,
       name: name,
-      amount: amount * 100,
-      redirectUrl: `${PHONEPE_SEVER_REDIRECT_URL}/${merchantTransactionId}`,
+      amount: totalAmount * 100,
+      redirectUrl: `${PHONEPE_SEVER_REDIRECT_URL}/${transactionId}`,
       redirectMode: "POST",
       mobileNumber: number,
       paymentInstrument: {
@@ -54,10 +59,21 @@ export const makePaymentWithPhonepe: RequestHandler = async (
 
     axios
       .request(options)
-      .then(function (response) {
+      .then(async function (response) {
         // return res.redirect(
         //   response.data.data.instrumentResponse.redirectInfo.url
         // );
+        /** ---> creating new order. */
+        await makeNewOrder({
+          userId,
+          transactionId,
+          selectedAddress,
+          totalAmount,
+          totalItems,
+          items,
+        });
+
+        // ---> redirecting from client through href.
         return res.json({
           success: true,
           message: "Payment initiated.",
@@ -65,7 +81,7 @@ export const makePaymentWithPhonepe: RequestHandler = async (
         });
       })
       .catch(function (error) {
-        console.error(error);
+        console.error("Error ----->", error);
       });
   } catch (error) {
     next(error);
@@ -79,7 +95,7 @@ export const checkPhonepePaymentStatus: RequestHandler = async (
 ) => {
   try {
     const { merchantTransactionId, merchantId } = res.req.body;
-
+    console.log("--------------------------- i am here ---->");
     const keyIndex = 1;
     const string =
       `/pg/v1/status/${merchantId}/${merchantTransactionId}` + PHONEPE_SALT_KEY;
@@ -101,11 +117,12 @@ export const checkPhonepePaymentStatus: RequestHandler = async (
     axios
       .request(options)
       .then(async (response) => {
+        console.log("res back---> ", response.data);
         if (response.data.success === true) {
-          const url = CLIENT_PAYMENT_SUCCESS_PAGE_URL;
+          const url = "http://localhost:5173/";
           return res.redirect(url);
         } else {
-          const url = CLIENT_PAYMENT_FAILURE_PAGE_URL;
+          const url = "http://localhost:5173/";
           return res.redirect(url);
         }
       })
