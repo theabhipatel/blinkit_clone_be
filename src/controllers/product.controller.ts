@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
-import productModel from "../models/productModel";
-import subCategoryModel from "../models/subCategoryModel";
+import productModel from "../models/product.model";
+import subCategoryModel from "../models/subCategory.model";
 
 export const createProduct: RequestHandler = async (req, res, next) => {
   try {
