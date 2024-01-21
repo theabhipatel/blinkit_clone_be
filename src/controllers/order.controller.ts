@@ -25,7 +25,7 @@ export const makeNewOrder = async (orderInfo: TMakeNewOrderArgs) => {
     orderInfo.items.forEach(async (item) => {
       const product = await productModel.findById(item._id);
       if (product) {
-        if (product.stock > item.quantity) {
+        if (product.stock >= item.quantity) {
           product.stock -= item.quantity;
           await product.save();
         }
