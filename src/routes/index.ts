@@ -14,6 +14,6 @@ router.use("/user", privateRoutes, userRouter);
 router.use("/products", productRouter);
 router.use("/categories", categoryRouter);
 router.use("/sub-categories", subCategoryRouter);
-router.use("/payment", privateRoutes, paymentRouter);
+router.use("/payment", paymentRouter);
 
 export default router;

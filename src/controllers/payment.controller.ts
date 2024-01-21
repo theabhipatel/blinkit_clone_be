@@ -95,7 +95,6 @@ export const checkPhonepePaymentStatus: RequestHandler = async (
 ) => {
   try {
     const { merchantTransactionId, merchantId } = res.req.body;
-    console.log("--------------------------- i am here ---->");
     const keyIndex = 1;
     const string =
       `/pg/v1/status/${merchantId}/${merchantTransactionId}` + PHONEPE_SALT_KEY;
@@ -117,12 +116,11 @@ export const checkPhonepePaymentStatus: RequestHandler = async (
     axios
       .request(options)
       .then(async (response) => {
-        console.log("res back---> ", response.data);
         if (response.data.success === true) {
-          const url = "http://localhost:5173/";
+          const url = CLIENT_PAYMENT_SUCCESS_PAGE_URL;
           return res.redirect(url);
         } else {
-          const url = "http://localhost:5173/";
+          const url = CLIENT_PAYMENT_FAILURE_PAGE_URL;
           return res.redirect(url);
         }
       })
