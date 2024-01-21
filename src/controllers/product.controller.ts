@@ -28,15 +28,15 @@ export const getProduct: RequestHandler = async (req, res, next) => {
   const { productId } = req.params;
   try {
     const product = await productModel.findById(productId);
-    const subCategory = await subCategoryModel.findById(product?.subCategoryId);
-    const newProduct = {
-      ...product?._doc,
-      subCategoryTitle: subCategory?.title,
-    };
+    // const subCategory = await subCategoryModel.findById(product?.subCategoryId);
+    // const newProduct = {
+    //   ...product?._doc,
+    //   subCategoryTitle: subCategory?.title,
+    // };
     res.status(200).json({
       success: true,
       message: "Products fetched.",
-      product: newProduct,
+      product: product,
     });
   } catch (error) {
     next(error);
