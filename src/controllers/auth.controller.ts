@@ -3,7 +3,7 @@ import { RequestHandler } from "express";
 import { JWT_SECRET, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } from "../config";
 import userModel from "../models/user.model";
 import jwt from "jsonwebtoken";
-const client = require("twilio")(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+// const client = require("twilio")(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 export const loginOrSignup: RequestHandler = async (req, res, next) => {
   const { mobile } = req.body;
