@@ -1,7 +1,8 @@
 import { RequestHandler } from "express";
 import productModel from "../models/product.model";
 import subCategoryModel from "../models/subCategory.model";
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
+import categoryModel from "../models/category.model";
 
 export const createProduct: RequestHandler = async (req, res, next) => {
   try {
@@ -29,15 +30,27 @@ export const getProduct: RequestHandler = async (req, res, next) => {
   const { productId } = req.params;
   try {
     const product = await productModel.findById(productId);
-    // const subCategory = await subCategoryModel.findById(product?.subCategoryId);
-    // const newProduct = {
-    //   ...product?._doc,
-    //   subCategoryTitle: subCategory?.title,
-    // };
+    if (!product)
+      return res.status(404).json({
+        success: false,
+        message: "Products not found.",
+      });
+    const category = await categoryModel.findOne(
+      {
+        "subCategories._id": product?.subCategoryId,
+      },
+      { "subCategories.$": 1 }
+    );
+
+    const newProduct = {
+      ...product.toObject(),
+      subCategoryTitle: category?.subCategories[0]?.title,
+    };
+
     res.status(200).json({
       success: true,
       message: "Products fetched.",
-      product: product,
+      product: newProduct,
     });
   } catch (error) {
     next(error);
