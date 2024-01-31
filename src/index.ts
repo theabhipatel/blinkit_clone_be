@@ -5,6 +5,7 @@ import { errorHandler } from "./middlewares/errorHandler";
 import router from "./routes";
 import { connectDb } from "./utils/connectDb";
 import { deserializeUser } from "./middlewares/deserializeUser";
+import infoLogger from "./middlewares/infoLogger";
 
 /** ---> Initialze express app */
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(deserializeUser);
+app.use(infoLogger);
 
 /** ---> Handing home route for testing. */
 app.get("/", (req, res) => {
