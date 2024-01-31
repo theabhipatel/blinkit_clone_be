@@ -18,3 +18,6 @@ export const CLIENT_PAYMENT_SUCCESS_PAGE_URL =
   process.env.CLIENT_PAYMENT_SUCCESS_PAGE_URL!;
 export const CLIENT_PAYMENT_FAILURE_PAGE_URL =
   process.env.CLIENT_PAYMENT_FAILURE_PAGE_URL!;
+
+/** ---> FAST2SMS api key */
+export const FAST2SMS_API_KEY = process.env.FAST2SMS_API_KEY;
